@@ -3,23 +3,24 @@ import { Link, NavLink } from "react-router-dom";
 import profilePic from "../assets/profilePic/832.jpg"
 import Container from "./Container";
 import logo from "../assets/logo/blood_08.jpg"
+import UseAuth from "../Hooks/UseAuth";
 
 const Navbar = () => {
+  const { user, logOut } = UseAuth()
+  console.log(user);
 
-const navLinks = <>
-  <ul className="menu menu-horizontal px-1">
-  <li><NavLink>Donation Request</NavLink></li>
-            <li>
-             <NavLink>Blog</NavLink>
-            </li>
-        
-          </ul>
-</>
+  const navLinks = <>
+    <ul className="menu menu-horizontal px-1">
+      <li><NavLink>Donation Request</NavLink></li>
+      <li>
+        <NavLink>Blog</NavLink>
+      </li>
+    </ul>
+  </>
 
-
-    return (
-       <Container>
-         <div className="navbar bg-base-100">
+  return (
+    <Container>
+      <div className="navbar bg-base-100">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -30,41 +31,47 @@ const navLinks = <>
             </ul>
           </div>
           <div className="flex">
-            
+
             <img className="size-12 " src={logo} alt="" />
-          <a className="btn btn-ghost  text-3xl uppercase "><span className="text-red-600">Life</span>Spring</a>
-</div>        </div>
+            <a className="btn btn-ghost  text-3xl uppercase "><span className="text-red-600">Life</span>Spring</a>
+          </div>        </div>
         <div className="navbar-end hidden lg:flex">
-        
-{navLinks}
+
+          {navLinks}
 
         </div>
         <div className="">
-         
 
 
-        <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
-          
-          <img alt="Tailwind CSS Navbar component" src={profilePic}/>
+
+          <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
+
+                <img alt="Tailwind CSS Navbar component" src={profilePic} />
+              </div>
+            </div>
+            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+              {user ?
+                <>
+                  <Link className="text-center hover:bg-slate-300 p-4 rounded-md" to='dashboard'>Dashboard</Link>
+                  <button onClick={()=>logOut()} className="btn btn-ghost"><Link >Logout</Link></button>
+                </> :
+                <>
+                  <li>
+                    <Link to='login'>Login</Link>
+                  </li>
+                  <li>
+                    <Link to='registration'>Registration</Link>
+                  </li></>}
+
+            </ul>
+          </div>
+
         </div>
       </div>
-      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        <li>
-         <Link to='login'>Login</Link>
-        </li>
-        <li>
-         <Link to='registration'>Registration</Link>
-        </li>
-        
-      </ul>
-    </div>
-
-        </div>
-      </div>
-       </Container>
-    );
+    </Container>
+  );
 };
 
 export default Navbar;
